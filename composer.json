@@ -1,0 +1,29 @@
+{
+  "name": "huwcbjones/rankings-db",
+  "description": "Library to interact with British Swimming rankings database",
+  "version": "0.1.0-dev",
+  "type": "library",
+  "homepage": "https://github.com/huwcbjones/rankings-db",
+  "readme": "README.md",
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "Huw Jones",
+      "email": "huw@huwcbjones.co.uk",
+      "homepage": "https://www.huwcbjones.co.uk",
+      "role": "Developer"
+    }
+  ],
+  "autoload": {
+    "psr-4": {
+      "RankingsDB\\": "src/"
+    }
+  },
+  "require": {
+    "php": ">=5.5",
+    "ext-soap": "*"
+  },
+  "require-dev": {
+    "phpunit/phpunit": "*"
+  }
+}
