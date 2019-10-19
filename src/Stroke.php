@@ -4,12 +4,12 @@ namespace RankingsDB;
 
 class Stroke
 {
-    const FREESTYLE = "fc";
-    const FRONTCRAWL = "fc";
+    const FREESTYLE = "fr";
+    const FRONTCRAWL = "fr";
     const BUTTERFLY = "bf";
     const FLY = "bf";
-    const BACKSTROKE = "bc";
-    const BACK = "bc";
+    const BACKSTROKE = "ba";
+    const BACK = "ba";
     const BREASTSTROKE = "br";
     const BREAST = "br";
     const INDIVIDUAL_MEDLEY = "im";
