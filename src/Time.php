@@ -2,6 +2,13 @@
 
 namespace RankingsDB;
 
+/**
+ * Time object
+ *
+ * Contains time and event details
+ *
+ * @package RankingsDB
+ */
 class Time
 {
     protected $_event;
@@ -24,6 +31,8 @@ class Time
     }
 
     /**
+     * Stroke
+     *
      * @return Stroke
      */
     public function stroke()
@@ -32,6 +41,8 @@ class Time
     }
 
     /**
+     * Distance
+     *
      * @return int
      */
     public function distance()
@@ -40,6 +51,8 @@ class Time
     }
 
     /**
+     * Event Object
+     *
      * @return Event
      */
     public function event()
@@ -47,6 +60,51 @@ class Time
         return $this->_event;
     }
 
+    /**
+     * Returns the time in seconds
+     *
+     * E.g.:
+     *
+     * 2:02.72 => 122.72
+     *
+     * @return float
+     */
+    public function getTimeInSeconds()
+    {
+        return $this->_seconds * 60 + $this->_seconds + $this->_hundredths / 100;
+    }
+
+    /**
+     * Returns the time in hundredths of seconds
+     *
+     * E.g.:
+     *
+     * 2:02.72 => 12272
+     *
+     * @return int
+     */
+    public function getTimeInHundredths()
+    {
+        return 100 * ($this->_seconds * 60 + $this->_seconds) + $this->_hundredths;
+    }
+
+    public function __toString()
+    {
+        return $this->_event->eventID() . ": " . $this->getTime();
+    }
+
+    /**
+     * Get the time formatted in m:s.0
+     *
+     * If `$leading_zeroes` is `true`, then anytime less than 60 seconds will be prefixed with `0:`.
+     *
+     * E.g.:
+     *
+     * '56.78' => '0:56.78'
+     *
+     * @param bool $leading_zeroes include minutes if 0
+     * @return string
+     */
     public function getTime($leading_zeroes = true)
     {
         $time = sprintf("%02d.%02d", $this->_seconds, $this->_hundredths);
@@ -54,16 +112,6 @@ class Time
             $time = $this->_minutes . ":" . $time;
         }
         return $time;
-    }
-
-    public function getTimeInSeconds()
-    {
-        return $this->_seconds * 60 + $this->_seconds + $this->_hundredths / 100;
-    }
-
-    public function __toString()
-    {
-        return $this->_event->eventID() . ": " . $this->getTime();
     }
 
 

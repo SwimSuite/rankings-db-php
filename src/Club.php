@@ -2,6 +2,11 @@
 
 namespace RankingsDB;
 
+/**
+ * Club object
+ *
+ * @package RankingsDB
+ */
 class Club
 {
     protected $_club;
@@ -16,6 +21,8 @@ class Club
     }
 
     /**
+     * Club Code
+     *
      * @return string
      */
     public function Club()
@@ -24,6 +31,8 @@ class Club
     }
 
     /**
+     * County Code
+     *
      * @return string
      */
     public function County()
@@ -32,7 +41,9 @@ class Club
     }
 
     /**
-     * @return boolean
+     * Is this club a member's ranked club
+     *
+     * @return boolean true if this club is a member's ranked club
      */
     public function IsRanked()
     {

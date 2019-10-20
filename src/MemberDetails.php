@@ -3,7 +3,14 @@
 namespace RankingsDB;
 
 use DateTime;
+use DateTimeImmutable;
+use Exception;
 
+/**
+ * Member Details
+ *
+ * @package RankingsDB
+ */
 class MemberDetails
 {
     protected $_memberID;
@@ -22,9 +29,11 @@ class MemberDetails
     protected $_SM_CLASS;
     protected $_SB_CLASS;
     protected $_IPC_CODES;
+    protected $_lastUpdated;
 
     public function __construct($member_details)
     {
+        $this->_lastUpdated = new DateTimeImmutable($member_details->TimeStamp);
         $this->_memberID = $member_details->MemberID;
         $this->_firstName = $member_details->FirstName;
         $this->_lastName = $member_details->LastName;
@@ -55,6 +64,7 @@ class MemberDetails
     }
 
     /**
+     * Swim England Membership ID
      * @return int
      */
     public function MemberID()
@@ -63,6 +73,8 @@ class MemberDetails
     }
 
     /**
+     * First Name
+     *
      * @return string
      */
     public function FirstName()
@@ -71,6 +83,8 @@ class MemberDetails
     }
 
     /**
+     * Last Name
+     *
      * @return string
      */
     public function LastName()
@@ -79,6 +93,8 @@ class MemberDetails
     }
 
     /**
+     * Preferred First Name
+     *
      * @return string
      */
     public function KnownAs()
@@ -87,6 +103,8 @@ class MemberDetails
     }
 
     /**
+     * Middle Initials
+     *
      * @return string
      */
     public function Initials()
@@ -95,6 +113,8 @@ class MemberDetails
     }
 
     /**
+     * List of clubs the swimmer is a member of
+     *
      * @return Club[]
      */
     public function Clubs()
@@ -103,6 +123,8 @@ class MemberDetails
     }
 
     /**
+     * Date of Birth
+     *
      * @return DateTime
      */
     public function DateOfBirth()
@@ -111,6 +133,27 @@ class MemberDetails
     }
 
     /**
+     * Age
+     *
+     * @param $at DateTime|null age at date, or now if null
+     *
+     * @return int
+     */
+    public function Age($at = null)
+    {
+        if ($at == null) {
+            try {
+                $at = new DateTime();
+            } catch (Exception $exception) {
+
+            }
+        }
+        return $at->diff($this->_DoB)->y;
+    }
+
+    /**
+     * Sex
+     *
      * @return Sex
      */
     public function Sex()
@@ -119,7 +162,9 @@ class MemberDetails
     }
 
     /**
-     * @return mixed
+     * Country Code
+     *
+     * @return string
      */
     public function CountryCode()
     {
@@ -127,6 +172,8 @@ class MemberDetails
     }
 
     /**
+     * Country
+     *
      * @return string
      */
     public function Country()
@@ -136,7 +183,8 @@ class MemberDetails
 
 
     /**
-     * @return mixed
+     * IPC Codes
+     * @return string
      */
     public function IPCCodes()
     {
@@ -144,7 +192,9 @@ class MemberDetails
     }
 
     /**
-     * @return int|null
+     * SB Class
+     *
+     * @return int|null null if not classified, otherwise class number
      */
     public function SBClass()
     {
@@ -153,7 +203,9 @@ class MemberDetails
     }
 
     /**
-     * @return int|null
+     * SM Class
+     *
+     * @return int|null null if not classified, otherwise class number
      */
     public function SMClass()
     {
@@ -162,7 +214,9 @@ class MemberDetails
     }
 
     /**
-     * @return int|null
+     * S Class
+     *
+     * @return int|null null if not classified, otherwise class number
      */
     public function SClass()
     {
@@ -171,6 +225,8 @@ class MemberDetails
     }
 
     /**
+     * I Class
+     *
      * @return mixed
      */
     public function getIClass()
@@ -179,10 +235,21 @@ class MemberDetails
     }
 
     /**
+     *
      * @return boolean
      */
-    public function Lapsed()
+    public function getLapsed()
     {
         return $this->_lapsed;
+    }
+
+    /**
+     * Date record was last updated
+     *
+     * @return DateTimeImmutable
+     */
+    public function getLastUpdated()
+    {
+        return $this->_lastUpdated;
     }
 }

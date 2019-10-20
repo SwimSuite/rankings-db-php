@@ -2,9 +2,14 @@
 
 namespace RankingsDB;
 
-use Cassandra\Date;
 use DateTime;
+use Exception;
 
+/**
+ * Builder to create options for GetTimes
+ *
+ * @package RankingsDB
+ */
 class GetTimesBuilder
 {
     protected $_member_id;
@@ -15,52 +20,23 @@ class GetTimesBuilder
     protected $_include_masters = true;
     protected $_include_relays = false;
 
-    public function __construct($member_id)
-    {
-        $this->_member_id = $member_id;
-    }
-
     /**
-     * @param null $from_date
-     * @return GetTimesBuilder
+     * Create a GetTimesBuilder object
+     *
+     * @param $member int|MemberDetails SE Membership ID, or Member Details object
      */
-    public function setFromDate($from_date)
+    public function __construct($member)
     {
-        $this->_from_date = $from_date;
-        return $this;
+        if (is_int($member)) {
+            $this->_member_id = $member;
+        } else {
+            $this->_member_id = $member->MemberID();
+        }
     }
 
     /**
-     * @param null $to_date
-     * @return GetTimesBuilder
-     */
-    public function setToDate($to_date)
-    {
-        $this->_to_date = $to_date;
-        return $this;
-    }
-
-    /**
-     * @param string $course
-     * @return GetTimesBuilder
-     */
-    public function setCourse($course)
-    {
-        $this->_course = $course;
-        return $this;
-    }
-
-    /**
-     * @param int $level
-     * @return GetTimesBuilder
-     */
-    public function setLevel($level)
-    {
-        $this->_level = $level;
-        return $this;
-    }
-
-    /**
+     * Include times from masters events
+     *
      * @param bool $include_masters
      * @return GetTimesBuilder
      */
@@ -71,6 +47,8 @@ class GetTimesBuilder
     }
 
     /**
+     * Include times from relays
+     *
      * @param bool $include_relays
      * @return GetTimesBuilder
      */
@@ -81,7 +59,7 @@ class GetTimesBuilder
     }
 
     /**
-     * @return mixed
+     * @return int
      */
     public function getMemberID()
     {
@@ -93,10 +71,26 @@ class GetTimesBuilder
      */
     public function getFromDate()
     {
-        if ($this->_from_date === null){
-            return (new DateTime("1970-01-01"))->setTime(0, 0, 0);
+        if ($this->_from_date === null) {
+            try {
+                return (new DateTime("1970-01-01"))->setTime(0, 0, 0);
+            } catch (Exception $e) {
+
+            }
         }
         return $this->_from_date;
+    }
+
+    /**
+     * Set the from date
+     *
+     * @param null|DateTime $from_date
+     * @return GetTimesBuilder
+     */
+    public function setFromDate($from_date)
+    {
+        $this->_from_date = $from_date;
+        return $this;
     }
 
     /**
@@ -104,10 +98,26 @@ class GetTimesBuilder
      */
     public function getToDate()
     {
-        if ($this->_to_date === null){
-            return (new DateTime());
+        if ($this->_to_date === null) {
+            try {
+                return (new DateTime());
+            } catch (Exception $e) {
+
+            }
         }
         return $this->_to_date;
+    }
+
+    /**
+     * Set the to date
+     *
+     * @param null|DateTime $to_date
+     * @return GetTimesBuilder
+     */
+    public function setToDate($to_date)
+    {
+        $this->_to_date = $to_date;
+        return $this;
     }
 
     /**
@@ -119,11 +129,40 @@ class GetTimesBuilder
     }
 
     /**
+     * Set the course code
+     *
+     * @param string $course
+     * @return GetTimesBuilder
+     */
+    public function setCourse($course)
+    {
+        $this->_course = $course;
+        return $this;
+    }
+
+    /**
      * @return int
      */
     public function getLevel()
     {
         return $this->_level;
+    }
+
+    /**
+     * Set the minimum required competition level
+     *
+     * - 0: ALL
+     * - 1: Level 1
+     * - 2: Level 2
+     * - 3: Level 3
+     *
+     * @param int $level
+     * @return GetTimesBuilder
+     */
+    public function setLevel($level)
+    {
+        $this->_level = $level;
+        return $this;
     }
 
     /**
