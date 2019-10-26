@@ -25,9 +25,9 @@ class Event
         13 => Stroke::BACKSTROKE . "50",
         14 => Stroke::BACKSTROKE . "100",
         15 => Stroke::BACKSTROKE . "200",
-        16 => Stroke::INDIVIDUAL_MEDLEY . "100",
-        17 => Stroke::INDIVIDUAL_MEDLEY . "200",
-        18 => Stroke::INDIVIDUAL_MEDLEY . "400"
+        18 => Stroke::INDIVIDUAL_MEDLEY . "100",
+        16 => Stroke::INDIVIDUAL_MEDLEY . "200",
+        17 => Stroke::INDIVIDUAL_MEDLEY . "400"
     ];
     static protected $_reverse_map = [];
     protected $_stroke;
