@@ -71,7 +71,7 @@ class Time
      */
     public function getTimeInSeconds()
     {
-        return $this->_seconds * 60 + $this->_seconds + $this->_hundredths / 100;
+        return $this->_minutes * 60 + $this->_seconds + $this->_hundredths / 100;
     }
 
     /**
@@ -85,7 +85,7 @@ class Time
      */
     public function getTimeInHundredths()
     {
-        return 100 * ($this->_seconds * 60 + $this->_seconds) + $this->_hundredths;
+        return 100 * ($this->_minutes * 60 + $this->_seconds) + $this->_hundredths;
     }
 
     public function __toString()

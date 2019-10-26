@@ -18,6 +18,11 @@
       "RankingsDB\\": "src/"
     }
   },
+  "autoload-dev": {
+    "psr-4": {
+      "RankingsDB\\Tests\\": "tests/"
+    }
+  },
   "require": {
     "php": ">=5.5",
     "ext-soap": "*"
