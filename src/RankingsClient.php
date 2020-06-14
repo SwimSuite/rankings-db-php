@@ -32,19 +32,28 @@ class RankingsClient
      *
      * @param $personal_key string Personal Key
      * @param $membership_number int Membership Number for Personal Key
+     * @param $options array extra options to pass to underlying SOAP client
      *
      * @throws TypeError If the membership number is not an integer
      * @throws ConnectionException If a connection could not be made to the Rankings DB
      * @throws InvalidPersonalKey If the personal key/member ID is invalid
      */
-    public function __construct($personal_key, $membership_number)
+    public function __construct($personal_key, $membership_number, $options = null)
     {
+        if ($options === null) {
+            $options = [];
+        }
+
         $this->_soap_user = new SoapVar(RankingsClient::$_user, XSD_STRING);
         $this->_soap_pass = new SoapVar(RankingsClient::$_pass, XSD_STRING);
 
         if (!is_int($membership_number)) {
             throw new TypeError("Personal key number must be an integer");
         }
+        if (!is_array($options)) {
+            throw new TypeError("options must be an array");
+        }
+
 
         $this->_personal_key = $personal_key;
         $this->_personal_key_member_number = $membership_number;
@@ -55,11 +64,14 @@ class RankingsClient
         try {
             $this->_soap_client = new SoapClient(
                 null,
-                [
-                    "location" => "https://entriesapi.swimmingresults.org/v1/",
-                    "uri" => "https://entriesapi.swimmingresults.org/v1/",
-                    "trace" => 1
-                ]
+                array_merge(
+                    $options,
+                    [
+                        "location" => "https://entriesapi.swimmingresults.org/v1/",
+                        "uri" => "https://entriesapi.swimmingresults.org/v1/",
+                        "trace" => 1
+                    ]
+                )
             );
             $this->_checkConnection();
         } catch (SoapFault $fault) {
