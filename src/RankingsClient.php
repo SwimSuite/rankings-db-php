@@ -13,7 +13,7 @@ use TypeError;
 class RankingsClient
 {
     private static $_user = "6719218280CF981A54BFE34E37074B7F";
-    private static $_pass = "2633963A462E2831B6D5F424B195D2DB";
+    private static $_pass = "D32FE6EDB994876894DC8CD625D3CE07";
     public $_soap_client;
     protected $_personal_key;
     protected $_personal_key_member_number;
@@ -56,12 +56,11 @@ class RankingsClient
             $this->_soap_client = new SoapClient(
                 null,
                 [
-                    "location" => "https://www.swimmingresults.org/soap/BritSwimWebServ.php",
-                    "uri" => "https://www.swimmingresults.org/soap",
+                    "location" => "https://entriesapi.swimmingresults.org/v1/",
+                    "uri" => "https://entriesapi.swimmingresults.org/v1/",
                     "trace" => 1
                 ]
             );
-            $this->_soap_client->wsdl = false;
             $this->_checkConnection();
         } catch (SoapFault $fault) {
             throw new ConnectionException("Failed to connect to rankings DB - " . $fault->getMessage());
@@ -89,7 +88,10 @@ class RankingsClient
         try {
             $this->getMemberDetails(-1);
         } catch (SoapFault $fault) {
-            if (strpos($fault->getMessage(), "Invalid Personal Key") !== false || strpos($fault->getMessage(), "No Personal Key") !== false) {
+            if (
+                strpos($fault->getMessage(), "Invalid Personal Key") !== false
+                || strpos($fault->getMessage(), "No Personal Key") !== false
+            ) {
                 throw new InvalidPersonalKey("Invalid personal key");
             }
         } catch (MemberNotFound $exception) {

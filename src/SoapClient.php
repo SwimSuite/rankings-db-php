@@ -28,10 +28,7 @@ class SoapClient extends _SoapClient
 
     protected function get_user_agent()
     {
-        if ($this->wsdl) {
-            return "Mozilla/4.0 (compatible; MSIE 5.01; Windows NT 5.0)";
-        }
-        return "SOAP Toolkit 3.0";
+        return "Meet Organisation Rev 5.3 Web Services";
     }
 
 }
